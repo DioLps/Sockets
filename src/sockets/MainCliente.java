@@ -2,7 +2,6 @@ package sockets;
 
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
  *
@@ -15,8 +14,6 @@ public class MainCliente {
         Socket socket;
 
         PrintStream saida;
-
-        Scanner in;
 
         //Cliente
         //Etapa pedido de conexão
@@ -36,14 +33,6 @@ public class MainCliente {
             saida = new PrintStream(socket.getOutputStream());
 
             saida.println("Oi, tudo bem?");
-
-            in = new Scanner(socket.getInputStream());
-
-            String entrada;
-
-            entrada = in.nextLine();
-
-            System.out.println("Recebido: " + entrada);
 
         } catch (Exception e) {
             System.out.println("Erro ao enviar dados :C  \n"

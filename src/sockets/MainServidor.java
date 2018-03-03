@@ -1,6 +1,5 @@
 package sockets;
 
-import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -19,10 +18,6 @@ public class MainServidor {
 
         Scanner in;
 
-        PrintStream saida;
-        
-        Boolean start = true;
-
         //Servidor
         //Criação do socket Servidor e bind
         try {
@@ -34,61 +29,48 @@ public class MainServidor {
                     + "Log: " + e.getMessage());
             return;
         }
-        while (start) {
-            //Espera pelo pedido do cliente: accept
-            try {
 
-                System.out.println("Aguardando conexão...");
+        //Espera pelo pedido do cliente: accept
+        try {
 
-                cliente = server.accept();
+            System.out.println("Aguardando conexão...");
 
-                System.out.println("Conexão estabelecida \n"
-                        + cliente.getInetAddress().getHostAddress());
+            cliente = server.accept();
 
-            } catch (Exception e) {
-                System.out.println("Erro ao conectar com cliente :C  \n"
-                        + "Log: " + e.getMessage());
-                return;
-            }
+            System.out.println("Conexão estabelecida \n"
+                    + cliente.getInetAddress().getHostAddress());
 
-            //Etapa de comunicação
-            try {
+        } catch (Exception e) {
+            System.out.println("Erro ao conectar com cliente :C  \n"
+                    + "Log: " + e.getMessage());
+            return;
+        }
 
-                in = new Scanner(cliente.getInputStream());
+        //Etapa de comunicação
+        try {
 
-                String entrada;
+            in = new Scanner(cliente.getInputStream());
 
-                entrada = in.nextLine();
+            String entrada;
 
-                System.out.println("Recebido: " + entrada);
+            entrada = in.nextLine();
 
-                saida = new PrintStream(cliente.getOutputStream());
+            System.out.println("Recebido: " + entrada);
 
-                saida.println("Opa, tudo bom?");
+        } catch (Exception e) {
+            System.out.println("Erro de comunicação :C \n"
+                    + "Log: " + e.getMessage());
+            return;
+        }
 
-            } catch (Exception e) {
-                System.out.println("Erro de comunicação :C \n"
-                        + "Log: " + e.getMessage());
-                return;
-            }
+        //Encerramento da conexão
+        try {
 
-            //Encerramento da conexão
-            try {
-
-                cliente.close();
-                
-                if (cliente.getInetAddress().getHostAddress().equalsIgnoreCase("192.168.36.158")) {
-                    System.out.println("Eduardo se conectou :P");
-                    server.close();
-                    cliente.close();
-                    start = false;
-                }
-
-            } catch (Exception e) {
-                System.out.println("Erro ao encerrar conexão :C \n"
-                        + "Log: " + e.getMessage());
-            }
-
+            cliente.close();
+            server.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao encerrar conexão :C \n"
+                    + "Log: " + e.getMessage());
         }
     }
 }
