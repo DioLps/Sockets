@@ -5,49 +5,44 @@ import java.net.Socket;
 
 /**
  *
- * @author Rodrigo Lopes Napolitano
+ * @author diolps
  */
 public class MainCliente {
 
     public static void main(String[] args) {
 
+        //Declaração de escopo
         Socket socket;
 
         PrintStream saida;
 
-        //Cliente
-        //Etapa pedido de conexão
+        //Etapa pedido de conexão - Utilizar porta 9876 e ip da máquina onde o servidor está rodando.
         try {
-
             socket = new Socket("localhost", 9876);
-
         } catch (Exception e) {
-            System.out.println("Erro ao conectar com o servidor :C \n"
-                    + "Log: " + e.getMessage());
+            System.out.println("Erro ao Solicitar conexão");
+            System.out.println("Erro: " + e.getMessage());
             return;
         }
 
-        //Etapa de conexão
+        //Etapa de comunicacao - Onde será enviada a mensagem ao servidor.
         try {
-
             saida = new PrintStream(socket.getOutputStream());
 
-            saida.println("Oi, tudo bem?");
+            saida.println("Se inscreve no canal!");
 
         } catch (Exception e) {
-            System.out.println("Erro ao enviar dados :C  \n"
-                    + "Log: " + e.getMessage());
+            System.out.println("Erro ao enviar dados");
+            System.out.println("Erro: " + e.getMessage());
             return;
         }
-
         //Encerramento da conexão
         try {
-
+            System.out.println("Saindo..");
             socket.close();
-
         } catch (Exception e) {
-            System.out.println("Erro ao encerrar conexão :C \n"
-                    + "Log: " + e.getMessage());
+            System.out.println("Erro ao encerrar conexão");
+            System.out.println("Erro: " + e.getMessage());
         }
 
     }
