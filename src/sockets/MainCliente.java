@@ -2,47 +2,63 @@ package sockets;
 
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  *
- * @author diolps
+ * @author Rodrigo Lopes Napolitano
  */
 public class MainCliente {
 
     public static void main(String[] args) {
 
-        //Declaração de escopo
         Socket socket;
 
         PrintStream saida;
 
-        //Etapa pedido de conexão - Utilizar porta 9876 e ip da máquina onde o servidor está rodando.
+        Scanner in;
+
+        //Cliente
+        //Etapa pedido de conexão
         try {
+
             socket = new Socket("localhost", 9876);
+
         } catch (Exception e) {
-            System.out.println("Erro ao Solicitar conexão");
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro ao conectar com o servidor :C \n"
+                    + "Log: " + e.getMessage());
             return;
         }
 
-        //Etapa de comunicacao - Onde será enviada a mensagem ao servidor.
+        //Etapa de conexão
         try {
+
             saida = new PrintStream(socket.getOutputStream());
 
-            saida.println("Se inscreve no canal!");
+            saida.println("Oi, tudo bem?");
+
+            in = new Scanner(socket.getInputStream());
+
+            String entrada;
+
+            entrada = in.nextLine();
+
+            System.out.println("Recebido: " + entrada);
 
         } catch (Exception e) {
-            System.out.println("Erro ao enviar dados");
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro ao enviar dados :C  \n"
+                    + "Log: " + e.getMessage());
             return;
         }
+
         //Encerramento da conexão
         try {
-            System.out.println("Saindo..");
+
             socket.close();
+
         } catch (Exception e) {
-            System.out.println("Erro ao encerrar conexão");
-            System.out.println("Erro: " + e.getMessage());
+            System.out.println("Erro ao encerrar conexão :C \n"
+                    + "Log: " + e.getMessage());
         }
 
     }
